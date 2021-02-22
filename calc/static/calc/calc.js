@@ -7,7 +7,7 @@ let ans;  // Result of the calculation
 function updateServer(expression, result) {
 	const data = {'expression': expression, 'result': result};
 
-	fetch('http://127.0.0.1:8000/api/new', {
+	fetch('/api/new', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',

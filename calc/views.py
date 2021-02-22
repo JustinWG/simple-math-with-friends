@@ -10,6 +10,11 @@ class CalcPage(TemplateView):
     template_name = 'calc/calc.html'
 
 
-class CalculationsList(generics.ListCreateAPIView):
+class CalculationsNew(generics.CreateAPIView):
     queryset = Calculations.objects.all()
+    serializer_class = CalculationsSerializer
+
+
+class CalculationsGet(generics.ListAPIView):
+    queryset = Calculations.objects.all().order_by('-created_at')[:10]
     serializer_class = CalculationsSerializer

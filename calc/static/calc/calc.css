@@ -1,14 +1,74 @@
-div{
+/* Google font */
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script');
+body {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.container {
+  display: grid;
+  grid-gap: 0px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "notebook calc";
+}
+
+/* styling paper */
+#paper {
+  grid-area: notebook;
+  width: 600px;
+  height: 550px;
+  position: relative;
+  margin: 20px auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: white;
+  box-shadow: 0px 0px 5px 0px #888;
+  transform: rotate(355deg);
+}
+
+/* styling red vertical line */
+#paper::before {
+  content: '';
+  width: 2px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 80px;
+  background-color: rgba(255,0,0,0.6);
+}
+
+/* styling blue horizontal lines */
+#paperPattern {
+  height: 100%;
+  background-image: repeating-linear-gradient(white 0px, white 35px, teal 36px);
+}
+
+/* styling text content */
+#paperContent {
+  padding-top: 3px;
+  padding-left: 90px;
+  padding-right: 16px;
+  line-height: 36px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 30px;
+  letter-spacing: 1px;
+  word-spacing: 5px;
+	list-style-type:none;
+}
+
+.calculator{
+  grid-area: calc;
 	background-color: #334d4d;
 	margin: 50px;
 	width: 350px;
-	height: 550px;
-	margin: 0 auto;			/* horizontally centreing an element */
+	height: 510px;
+	margin: 20px auto;			/* horizontally centreing an element */
 	border-radius: 20px;
 	padding: 10px;
+/*   transform: rotate(359 deg); */
 }
 
-header{
+#screen{
 	background-color: #d1e0e0;
 	width: 330px;
 	height: 100px;
@@ -17,10 +77,10 @@ header{
 	font-size: xx-large;
 	color: #000000;
 	text-align: center;
-
+	justify-content: center;
 }
 
-table{
+#calculatorBody{
 	background-color: #FFFFFF;
 	margin: 0 auto;
 	margin-top: 20px;

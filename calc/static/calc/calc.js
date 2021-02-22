@@ -15,6 +15,7 @@ function sendNum(digit){
 function equalTo(){
 	document.getElementById('screen').innerHTML = '';
 	ans = eval(displayValue); //eval has security concerns; but I don't think the user can inject malicious code in given the entry constraints.
+	ans = ans.toFixed(3);
 	document.getElementById('screen').innerHTML = ans;		// result display
 	// send JSON here
 	//This updates the server with equation
@@ -73,8 +74,6 @@ function writeNotebook(data) {
 	}
 	current_data = data
 }
-
-getResultsData().then(data => writeNotebook(data));
 
 function periodicUpdate() {
 	getResultsData().then(data => writeNotebook(data));

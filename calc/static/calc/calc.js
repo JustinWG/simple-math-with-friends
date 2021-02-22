@@ -1,48 +1,8 @@
 let displayValue = '';  // The display value
 let num = [];  // An array of all digits entered
 let ans;  // Result of the calculation
-
-
-// Posts an expression & result to the REST API Server
-function updateServer(expression, result) {
-	const data = {'expression': expression, 'result': result};
-
-	fetch('/api/new', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(data),
-})
-.then(response => response.json())
-.then(data => {
-  console.log('Success:', data);
-})
-.catch((error) => {
-  console.error('Error:', error);
-});
-}
-
-// Grabs data from the Rest API and 'draws' it on the notebook
-// function updateResultsData() {
-// 	var obj;
-// 	fetch('http://127.0.0.1:8000/api/get')
-//   .then(response => response.json())
-// 	.then(data => {
-// 		dataset = data;
-// 		drawResults();
-// 	});
-// 	function drawResults() {
-// 		notebook = document.querySelector('#paperContent');
-// 		notebook.innerHTML = "Results"
-// 		dataset.forEach(function(entry) {
-// 			listElement = document.createElement("li");
-// 			lineText = `${entry.expression} = ${entry.result}`;
-// 			listElement.innerHTML = lineText;
-// 			notebook.appendChild(listElement);
-// 		});
-// 	}
-// }
+const calcEntries = ['1','2','3','4','5','6','7','8','9','0','+', '-', '*', '/']
+let current_data = []
 
 // All the numbers and operators input will be stored in an array "num" using function "sendNum()"
 function sendNum(digit){
@@ -57,9 +17,14 @@ function equalTo(){
 	ans = eval(displayValue); //eval has security concerns; but I don't think the user can inject malicious code in given the entry constraints.
 	document.getElementById('screen').innerHTML = ans;		// result display
 	// send JSON here
-	updateServer(displayValue, ans);
-	// receive JSON here
-	updateNotebook;
+	//This updates the server with equation
+	updateServer(displayValue, ans)
+
+	//waits 300ms to give the server time, then requests a new results list and updates the notebook.
+	setTimeout(function() {
+		getResultsData().then(data => writeNotebook(data));
+	}, 300);
+	console.log('just after updateSErver')
   num = []
 	num.push(ans.toString());
 	displayValue = ans;
@@ -72,9 +37,53 @@ function clearScr(){
 	displayValue ='';
 }
 
-// This binds the relevant keyboard keys to the functions above; whose got time to click?
-const calcEntries = ['1','2','3','4','5','6','7','8','9','0','+', '-', '*', '/']
+async function updateServer(expression, result) {
+		const data = {'expression': expression, 'result': result};
 
+		const response = await fetch('/api/new', {
+	  method: 'POST',
+	  headers: {
+	    'Content-Type': 'application/json',
+	  },
+	  body: JSON.stringify(data),
+		});
+		const post = await response.json();
+		return post;
+}
+
+async function getResultsData() {
+  const response = await fetch('/api/get');
+  const data = await response.json();
+  return data;
+}
+
+function writeNotebook(data) {
+	if (current_data === data) {
+		{}
+	} else {
+		notebook = document.querySelector('#paperContent');
+		notebook.innerHTML = "Results"
+		data.forEach(function(entry) {
+			listElement = document.createElement("li");
+			lineText = `${entry.expression} = ${entry.result}`;
+			listElement.innerHTML = lineText;
+			notebook.appendChild(listElement);
+			//TODO: play sound?
+		});
+	}
+	current_data = data
+}
+
+getResultsData().then(data => writeNotebook(data));
+
+function periodicUpdate() {
+	getResultsData().then(data => writeNotebook(data));
+	setTimeout(periodicUpdate, 3000);
+}
+
+periodicUpdate();
+
+// This binds the relevant keyboard keys to the functions above; whose got time to click?
 document.addEventListener('keydown', function(event){
 	if (calcEntries.includes(event.key)) {
 		sendNum(event.key);
@@ -84,27 +93,7 @@ document.addEventListener('keydown', function(event){
 		equalTo();
 	} else if (event.key === 'Escape') {
 		clearScr();
-	}
-	else {}
+	} else if (event.key === 'Backspace') {
+		clearScr();
+	} else {}
 } );
-
-const updateNotebook = updateResultsData().then(data => drawResults(data));
-// sets the Results list on page-load (and recursively calls itself thereafter)
-updateNotebook;
-
-async function updateResultsData() {
-  const response = await fetch('/api/get');
-  const data = await response.json();
-  return data;
-}
-
-function drawResults(data) {
-	notebook = document.querySelector('#paperContent');
-	notebook.innerHTML = "Results"
-	data.forEach(function(entry) {
-		listElement = document.createElement("li");
-		lineText = `${entry.expression} = ${entry.result}`;
-		listElement.innerHTML = lineText;
-		notebook.appendChild(listElement);
-	});
-}

@@ -3,15 +3,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+		<link rel="preconnect" href="https://fonts.gstatic.com">
     <meta charset="UTF-8">
     <title>Calculator</title>
     <link rel="stylesheet" type="text/css" href="{% static 'calc/calc.css' %}">
+		<link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="calculator">
-			<header id="screen"></header>
-			<table id='calculatorBody'>
+			<header class="screen"></header>
+			<table class='calculatorBody'>
 
 							<tbody>
 					<tr class="orange">
@@ -25,9 +27,9 @@
 						<td onclick="sendNum('*')">x</td>
 					</tr>
 					<tr>
-								<td onclick="sendNum('7')">7</td>
-								<td onclick="sendNum('8')">8</td>
-								<td onclick="sendNum('9')">9</td>
+						<td onclick="sendNum('7')">7</td>
+						<td onclick="sendNum('8')">8</td>
+						<td onclick="sendNum('9')">9</td>
 					</tr>
 					<tr>
 						<td onclick="sendNum('4')">4</td>
@@ -35,25 +37,26 @@
 						<td onclick="sendNum('6')">6</td>
 					</tr>
 					<tr>
-									<td onclick="sendNum('1')">1</td>
+						<td onclick="sendNum('1')">1</td>
 						<td onclick="sendNum('2')">2</td>
 						<td onclick="sendNum('3')">3</td>
 					</tr>
 					<tr>
-									<td onclick="sendNum('.')">.</td>
+						<td onclick="sendNum('.')">.</td>
 						<td onclick="sendNum('0')">0</td>
 						<td onclick="equalTo()">=</td>
 					</tr>
 				</tbody>
 			</table>
 	</div>
-	<div id="paper">
-		<div id="paperPattern">
-			<div id="paperContent">
+	<div class="paper">
+		<div class="paperPattern">
+			<div class="paperContent">
 			</div>
 		</div>
 	</div>
 </div>
+<script src='https://unpkg.com/mathjs@9.2.0/lib/browser/math.js'></script>
 <script src="{% static 'calc/calc.js' %}"></script>
 </body>
 </html>

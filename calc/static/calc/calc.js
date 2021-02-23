@@ -8,19 +8,16 @@ let current_data = []
 function sendNum(digit){
 	num.push(digit);
 	displayValue = displayValue + num[num.length-1];	// concatenate the elements of the array "num" into a single string, which will be displayed on the screen
-	document.getElementById('screen').innerHTML = displayValue;	// displaying the concatenated string
+	document.querySelector('.screen').innerHTML = displayValue;	// displaying the concatenated string
 }
 
 // when the user presses "=", function "equalTo()" is called
 function equalTo(){
-	document.getElementById('screen').innerHTML = '';
-	ans = eval(displayValue); //eval has security concerns; but I don't think the user can inject malicious code in given the entry constraints.
+	document.querySelector('.screen').innerHTML = '';
+	ans = math.evaluate(displayValue); //math.eval is a JavaScript library from MathJS that aleviates some security concerns from standard eval;
 	ans = ans.toFixed(3);
-	console.log(ans);
-	console.log(typeof(ans));
-	document.getElementById('screen').innerHTML = ans;	// result display
-	if (ans==='Infinity') {
-		console.log("To Infinity, and Beyond!")
+	document.querySelector('.screen').innerHTML = ans;	// result display
+	if (ans=='Infinity' || isNaN(ans)) {
 	} else {
 	// send JSON here
 	//This updates the server with equation
@@ -31,7 +28,7 @@ function equalTo(){
 		getResultsData().then(data => writeNotebook(data));
 	}, 300);
 	}
-	
+
 	num = []
 	num.push(ans.toString());
 	displayValue = ans;
@@ -39,7 +36,7 @@ function equalTo(){
 
 // When user presses "AC", function "clearScr()" is called
 function clearScr(){
-	document.getElementById('screen').innerHTML = '';
+	document.querySelector('.screen').innerHTML = '';
   num = [];
 	displayValue ='';
 }
@@ -68,14 +65,13 @@ function writeNotebook(data) {
 	if (current_data === data) {
 		{}
 	} else {
-		notebook = document.querySelector('#paperContent');
+		notebook = document.querySelector('.paperContent');
 		notebook.innerHTML = "Results"
 		data.forEach(function(entry) {
 			listElement = document.createElement("li");
 			lineText = `${entry.expression} = ${entry.result}`;
 			listElement.innerHTML = lineText;
 			notebook.appendChild(listElement);
-			//TODO: play sound?
 		});
 	}
 	current_data = data

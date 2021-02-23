@@ -58,8 +58,8 @@ async function getResultsData() {
 }
 
 function writeNotebook(data) {
-    notebook = document.querySelector('.paperContent');
-    notebook.innerHTML = "Results";
+    notebook = document.querySelector('#results');
+    notebook.innerHTML = "";
     data.forEach(function(entry) {
       listElement = document.createElement("li");
       lineText = `${entry.expression} = ${entry.result}`;

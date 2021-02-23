@@ -1,5 +1,5 @@
 body {
-  background-color: rgba(0,0,0,0.2);
+  background-color: #FAF3DD;
 }
 
 .container {
@@ -7,9 +7,21 @@ body {
   grid-gap: 0px;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
+    "banner banner"
     "notebook calc";
 }
+.bannerText {
+  grid-area: banner;
+  text-align: center;
+  margin: 20px;
+  font-family: 'Dancing Script', bold;
+  font-size: 50px;
+  letter-spacing: 1px;
+  word-spacing: 5px;
+  color: #0B3954;
 
+
+}
 /* styling paper */
 .paper {
   grid-area: notebook;
@@ -56,7 +68,7 @@ body {
 
 .calculator{
   grid-area: calc;
-  background-color: #334d4d;
+  background-color: #0B3954;
   margin: 50px;
   width: 350px;
   height: 510px;

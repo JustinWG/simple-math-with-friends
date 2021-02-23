@@ -16,7 +16,12 @@ function equalTo(){
 	document.getElementById('screen').innerHTML = '';
 	ans = eval(displayValue); //eval has security concerns; but I don't think the user can inject malicious code in given the entry constraints.
 	ans = ans.toFixed(3);
-	document.getElementById('screen').innerHTML = ans;		// result display
+	console.log(ans);
+	console.log(typeof(ans));
+	document.getElementById('screen').innerHTML = ans;	// result display
+	if (ans==='Infinity') {
+		console.log("To Infinity, and Beyond!")
+	} else {
 	// send JSON here
 	//This updates the server with equation
 	updateServer(displayValue, ans)
@@ -25,8 +30,9 @@ function equalTo(){
 	setTimeout(function() {
 		getResultsData().then(data => writeNotebook(data));
 	}, 300);
-	console.log('just after updateSErver')
-  num = []
+	}
+	
+	num = []
 	num.push(ans.toString());
 	displayValue = ans;
 }

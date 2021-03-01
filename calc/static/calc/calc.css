@@ -113,3 +113,8 @@ td:active{
   background-color: #e0e0d1;
   border-radius: 20px;
 }
+
+.gitLink{
+  font-size: 20px;
+  color: blue;
+}
